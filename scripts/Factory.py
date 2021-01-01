@@ -1,25 +1,29 @@
-class Button(object):
-   html = ""
-   def get_html(self):
-      return self.html
-
-class Image(Button):
+class Img(HTML):
    html = "<img></img>"
 
-class Input(Button):
+class Input(HTML):
    html = "<input></input>"
 
-class Flash(Button):
+class Obj(HTML):
    html = "<obj></obj>"
 
-class ButtonFactory():
-   def create_button(self, typ):
+class Label(HTML):
+   html = "<label></label>"
+
+class HTMLFactory():
+   def create_element(self, typ):
       targetclass = typ.capitalize()
       return globals()[targetclass]()
 
+class HTML():
+   html = ""
+   def get_html_syntax(self):
+      return self.html
+
 if __name__ == "__main__":
-    button_obj = ButtonFactory()
-    button = ['image', 'input', 'flash']
-    for b in button:
-        z = button_obj.create_button(b).get_html()
-        print(z)
+    html_obj = HTMLFactory()
+    elements = ['img','input','obj','label']
+    for e in elements:
+        element = html_obj.create_element(e)
+        html_tag = element.get_html_syntax()
+        print(html_tag)

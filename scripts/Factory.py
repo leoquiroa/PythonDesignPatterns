@@ -45,7 +45,7 @@ class Monkey:
 # Create a random animal
 def random_animal():
     """Let's be dynamic!"""
-    possible = [Dog, Cat, Parrot, Monkey]
+    possible = [Dog, Cat]
     return random.choice(possible)()
 
 
@@ -53,24 +53,27 @@ def random_animal():
 def main():
     
     # A Shop that sells only cats
+    print("A Shop that sells only cats")
     cat_shop = PetShop(Cat)
     cat_shop.show_pet()
-    #We have a lovely Cat
-    #It says meow
-    # A shop that sells random animals
-    shop = PetShop(random_animal)
-    for i in range(10):
+    print("=" * 20)
+
+    # A Shop that sells all animals
+    print("A Shop that sells all animals")
+    possible = [Dog, Cat, Parrot, Monkey]
+    for i in range(len(possible)):
+        print(i,"--")
+        shop = PetShop(possible[i])
         shop.show_pet()
-        print("--")
-    #We have a lovely Cat
-    #It says meow
-    #====================
-    #We have a lovely Dog
-    #It says woof
-    #====================
-    #We have a lovely Dog
-    #It says woof
-    #====================
+    print("=" * 20)
+
+    # A Shop that sells only dogs and cats
+    print("A Shop that sells only dogs and cats")
+    shop = PetShop(random_animal)
+    for i in range(4):
+        print(i,"--")
+        shop.show_pet()
+    print("=" * 20)
 
 if __name__ == "__main__":
     random.seed(42)  # for deterministic doctest outputs

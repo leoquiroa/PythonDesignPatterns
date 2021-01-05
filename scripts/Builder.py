@@ -1,5 +1,18 @@
+'''
+*What is this pattern about?
+It decouples the creation of a complex object and its representation,
+so that the same process can be reused to build objects from the same
+family.
+This is useful when you must separate the specification of an object
+from its actual representation (generally for abstraction).
+'''
+
+# The __str__ function return a human-readable format, which is good for logging information about the object. 
+# The __repr__ function return an “official” string representation of the object, which can be used to construct the object again.
+
 # Abstract Building
 class Building:
+    # In a regular case the base class '__init__' has the building logic 
     def __init__(self):
         self.build_floor()
         self.build_size()
@@ -10,6 +23,7 @@ class Building:
     def build_size(self):
         raise NotImplementedError
 
+    # the object representation in string format
     def __repr__(self):
         return "Floor: {0.floor} | Size: {0.size}".format(self)
 
@@ -17,7 +31,7 @@ class Building:
 # Concrete Buildings
 class House(Building):
     def build_floor(self):
-        self.floor = "One"
+        self.floor = "Two"
 
     def build_size(self):
         self.size = "Big"
@@ -25,10 +39,17 @@ class House(Building):
 
 class Flat(Building):
     def build_floor(self):
-        self.floor = "More than One"
+        self.floor = "One"
 
     def build_size(self):
         self.size = "Small"
+
+class Cottage(Building):
+    def build_floor(self):
+        self.floor = "One"
+
+    def build_size(self):
+        self.size = "Medium"
 
 
 # In some very complex cases, it might be desirable to pull out the building
@@ -44,11 +65,17 @@ class ComplexBuilding:
 
 class ComplexHouse(ComplexBuilding):
     def build_floor(self):
-        self.floor = "One"
+        self.floor = "Three"
 
     def build_size(self):
         self.size = "Big and fancy"
 
+class PentHouse(ComplexBuilding):
+    def build_floor(self):
+        self.floor = "Two"
+
+    def build_size(self):
+        self.size = "Big with a view of the city"
 
 def construct_building(cls):
     building = cls()
@@ -58,21 +85,25 @@ def construct_building(cls):
 
 
 def main():
-    """
-    >>> house = House()
-    >>> house
-    Floor: One | Size: Big
-    >>> flat = Flat()
-    >>> flat
-    Floor: More than One | Size: Small
+    
+    house = House()
+    print('house -> ',house)
+    #Floor: Two | Size: Big
+    flat = Flat()
+    print('flat -> ',flat)
+    #Floor: One | Size: Small
+    cottage = Cottage()
+    print('cottage -> ',cottage)
+    #Floor: One | Size: Medium
+
     # Using an external constructor function:
-    >>> complex_house = construct_building(ComplexHouse)
-    >>> complex_house
-    Floor: One | Size: Big and fancy
-    """
+    complex_house = construct_building(ComplexHouse)
+    print('complex_house -> ',complex_house)
+    pent_house = construct_building(PentHouse)
+    print('pent_house -> ',pent_house)
+    #Floor: One | Size: Big and fancy
+    #"""
 
 
 if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
+    main()

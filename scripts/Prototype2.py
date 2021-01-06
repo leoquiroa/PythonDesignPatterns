@@ -3,7 +3,8 @@ import copy
 class Prototype:
 
     _type = None
-    _value = None
+    _amount = None
+    _name = None
 
     def clone(self):
         pass
@@ -12,29 +13,34 @@ class Prototype:
         return self._type
 
     def getValue(self):
-        return self._value
+        return self._amount
 
-class Type1(Prototype):
+    def getName(self):
+        return self._name
 
-    def __init__(self, number):
-        self._type = "Type1"
-        self._value = number
+class McDonalds(Prototype):
+
+    def __init__(self, number, name):
+        self._type = "Hamburger"
+        self._amount = number
+        self._name = name
 
     def clone(self):
         return copy.copy(self)
 
-class Type2(Prototype):
+class HomeMade(Prototype):
 
     """ Concrete prototype. """
 
-    def __init__(self, number):
-        self._type = "Type2"
-        self._value = number
+    def __init__(self, number, name):
+        self._type = "Own Meal"
+        self._amount = number
+        self._name = name
 
     def clone(self):
         return copy.copy(self)
 
-class ObjectFactory:
+class FoodFactory:
 
     """ Manages prototypes.
     Static factory, that encapsulates prototype
@@ -42,48 +48,58 @@ class ObjectFactory:
     of the classes from these prototypes.
     """
 
-    __type1Value1 = None
-    __type1Value2 = None
-    __type2Value1 = None
-    __type2Value2 = None
+    __bigmac = None
+    __cheeseburger = None
+    __shake = None
+    __salad = None
 
     @staticmethod
     def initialize():
-        ObjectFactory.__type1Value1 = Type1(1)
-        ObjectFactory.__type1Value2 = Type1(2)
-        ObjectFactory.__type2Value1 = Type2(1)
-        ObjectFactory.__type2Value2 = Type2(2)
+        FoodFactory.__bigmac = McDonalds(1, 'BigMac')
+        FoodFactory.__cheeseburger = McDonalds(2, 'CheeseBurger')
+        FoodFactory.__shake = HomeMade(3, 'Shake')
+        FoodFactory.__salad = HomeMade(5, 'Salad')
 
     @staticmethod
-    def getType1Value1():
-        return ObjectFactory.__type1Value1.clone()
+    def getBigMac():
+        return FoodFactory.__bigmac.clone()
 
     @staticmethod
-    def getType1Value2():
-        return ObjectFactory.__type1Value2.clone()
+    def getCheeseBurger():
+        return FoodFactory.__cheeseburger.clone()
 
     @staticmethod
-    def getType2Value1():
-        return ObjectFactory.__type2Value1.clone()
+    def getShake():
+        return FoodFactory.__shake.clone()
 
     @staticmethod
-    def getType2Value2():
-        return ObjectFactory.__type2Value2.clone()
+    def getShakeOriginal():
+        return FoodFactory.__shake
+
+    @staticmethod
+    def getSalad():
+        return FoodFactory.__salad.clone()
 
 def main():
-    ObjectFactory.initialize()
+    FoodFactory.initialize()
 
-    instance = ObjectFactory.getType1Value1()
-    print("%s: %s" % (instance.getType(), instance.getValue()))
+    instance = FoodFactory.getBigMac()
+    print("%s: I get %s %s" % (instance.getType(), instance.getValue(), instance.getName()))
 
-    instance = ObjectFactory.getType1Value2()
-    print("%s: %s" % (instance.getType(), instance.getValue()))
+    instance = FoodFactory.getCheeseBurger()
+    print("%s: I get %s %s" % (instance.getType(), instance.getValue(), instance.getName()))
 
-    instance = ObjectFactory.getType2Value1()
-    print("%s: %s" % (instance.getType(), instance.getValue()))
+    instance = FoodFactory.getSalad()
+    print("%s: I get %s %s" % (instance.getType(), instance.getValue(), instance.getName()))
 
-    instance = ObjectFactory.getType2Value2()
-    print("%s: %s" % (instance.getType(), instance.getValue()))
+    # with no clone
+    print('with no clone')
+
+    instance = FoodFactory.getShakeOriginal()
+    print("%s: I get %s %s" % (instance.getType(), instance.getValue(), instance.getName()))
+
+    instance = FoodFactory.getShake()
+    print("%s: I get %s %s" % (instance.getType(), instance.getValue(), instance.getName()))
 
 if __name__ == "__main__":
     main()

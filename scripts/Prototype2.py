@@ -69,7 +69,7 @@ class FoodFactory:
         return FoodFactory.__cheeseburger.clone()
 
     @staticmethod
-    def getShake():
+    def getShakeClone():
         return FoodFactory.__shake.clone()
 
     @staticmethod
@@ -93,13 +93,36 @@ def main():
     print("%s: I get %s %s" % (instance.getType(), instance.getValue(), instance.getName()))
 
     # with no clone
-    print('with no clone')
+    print('--')
+    print('Initial conditions for Original and Clone')
 
-    instance = FoodFactory.getShakeOriginal()
-    print("%s: I get %s %s" % (instance.getType(), instance.getValue(), instance.getName()))
+    original = FoodFactory.getShakeOriginal()
+    print("%s: I get %s %s" % (original.getType(), original.getValue(), original.getName()))
 
-    instance = FoodFactory.getShake()
-    print("%s: I get %s %s" % (instance.getType(), instance.getValue(), instance.getName()))
+    clone = FoodFactory.getShakeClone()
+    print("%s: I get %s %s" % (clone.getType(), clone.getValue(), clone.getName()))
+
+    print('--')
+    print('Original_A and new clone_A after set original._amount = 8')
+    original._amount = 8
+    original_A = FoodFactory.getShakeOriginal()
+    clone_A = FoodFactory.getShakeClone()
+    print("%s: I get %s %s" % (original.getType(), original.getValue(), original.getName()))
+    print("%s: I get %s %s" % (clone.getType(), clone.getValue(), clone.getName()))
+    print("%s: I get %s %s" % (original_A.getType(), original_A.getValue(), original_A.getName()))
+    print("%s: I get %s %s" % (clone_A.getType(), clone_A.getValue(), clone_A.getName()))
+
+    print('--')
+    print('Original_B and new clone_B after set clone._amount = 11')
+    clone._amount = 11
+    original_B = FoodFactory.getShakeOriginal()
+    clone_B = FoodFactory.getShakeClone()
+    print("%s: I get %s %s" % (original.getType(), original.getValue(), original.getName()))
+    print("%s: I get %s %s" % (clone.getType(), clone.getValue(), clone.getName()))
+    print("%s: I get %s %s" % (original_A.getType(), original_A.getValue(), original_A.getName()))
+    print("%s: I get %s %s" % (clone_A.getType(), clone_A.getValue(), clone_A.getName()))
+    print("%s: I get %s %s" % (original_B.getType(), original_B.getValue(), original_B.getName()))
+    print("%s: I get %s %s" % (clone_B.getType(), clone_B.getValue(), clone_B.getName()))
 
 if __name__ == "__main__":
     main()

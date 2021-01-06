@@ -11,6 +11,7 @@ state, and when instantiation is expensive.
 class Prototype:
 
     value = "default"
+    number = 111
 
     def clone(self, **attrs):
         """Clone a prototype and update inner attributes dictionary"""
@@ -38,21 +39,30 @@ class PrototypeDispatcher:
 
 
 def main():
-    """
-    >>> dispatcher = PrototypeDispatcher()
-    >>> prototype = Prototype()
-    >>> d = prototype.clone()
-    >>> a = prototype.clone(value='a-value', category='a')
-    >>> b = prototype.clone(value='b-value', is_checked=True)
-    >>> dispatcher.register_object('objecta', a)
-    >>> dispatcher.register_object('objectb', b)
-    >>> dispatcher.register_object('default', d)
-    >>> [{n: p.value} for n, p in dispatcher.get_objects().items()]
-    [{'objecta': 'a-value'}, {'objectb': 'b-value'}, {'default': 'default'}]
-    """
-
-
+    dispatcher = PrototypeDispatcher()
+    prototype = Prototype()
+    d = prototype.clone()
+    a = prototype.clone(value='a-value', category='a', color="Red")
+    b = prototype.clone(value='b-value', number=333, is_checked=True)
+    dispatcher.register_object('objecta', a)
+    dispatcher.register_object('objectb', b)
+    dispatcher.register_object('default', d)
+    # all three objects
+    z = [{n: p.value} for n, p in dispatcher.get_objects().items()]
+    print('all three objects')
+    print(z)
+    dispatcher.unregister_object('default')
+    # only two objects
+    z = [{n: p.value} for n, p in dispatcher.get_objects().items()]
+    print('only two objects')
+    print(z)
+    # print all the attributes per object
+    print('attributes per class')
+    for n, p in dispatcher.get_objects().items():
+        print('n ',n)
+        for k,v in p.__dict__.items():
+            print(k,' : ',v)
+        print('--')
+    
 if __name__ == "__main__":
-    import doctest
-
-    doctest.testmod()
+    main()

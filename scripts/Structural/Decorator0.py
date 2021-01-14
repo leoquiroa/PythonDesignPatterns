@@ -36,6 +36,15 @@ class ItalicWrapper(TextTag):
     def render(self):
         return f"<i>{self._wrapped.render()}</i>"
 
+class NewLineWrapper(TextTag):
+    """Wraps a tag in <br>"""
+
+    def __init__(self, wrapped):
+        self._wrapped = wrapped
+
+    def render(self):
+        return f"</br>{self._wrapped.render()}</br>"
+
 
 def main():
     
@@ -47,6 +56,11 @@ def main():
     #after: <i><b>hello, world!</b></i>
     italic = ItalicWrapper(simple_hello)
     print("after:", italic.render())
+    #after: <i>hello, world!</i>
+    tmp_italic = ItalicWrapper(simple_hello)
+    tmp_bold = BoldWrapper(tmp_italic)
+    tmp_nl_i_b = NewLineWrapper(tmp_bold)
+    print("after:", tmp_nl_i_b.render())
     #after: <i>hello, world!</i>
     
 

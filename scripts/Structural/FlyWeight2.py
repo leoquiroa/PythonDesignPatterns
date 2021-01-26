@@ -7,3 +7,74 @@ The state of a Flyweight should not be affected by it's context, this
 is known as its intrinsic state. The decoupling of the objects state
 from the object's context, allows the Flyweight to be shared.
 '''
+
+import weakref
+
+
+class Card:
+    """The Flyweight"""
+
+    # Could be a simple dict.
+    # With WeakValueDictionary garbage collection can reclaim the object
+    # when there are no other references to it.
+    _pool = weakref.WeakValueDictionary()
+
+    def __new__(cls, value, suit):
+        # If the object exists in the pool - just return it
+        obj = cls._pool.get(value + suit)
+        # otherwise - create new one (and add it to the pool)
+        if obj is None:
+            obj = object.__new__(Card)
+            cls._pool[value + suit] = obj
+            # This row does the part we usually see in `__init__`
+            obj.value, obj.suit = value, suit
+        return obj
+
+    # If you uncomment `__init__` and comment-out `__new__` -
+    #   Card becomes normal (non-flyweight).
+    # def __init__(self, value, suit):
+    #     self.value, self.suit = value, suit
+
+    def __repr__(self):
+        return f"<Card: {self.value}{self.suit}>"
+
+def print_instance_attributes(obj):
+    for attribute, value in obj.__dict__.items():
+        print(attribute, '=', value)
+
+def main():
+    
+    c1 = Card('9', 'h')
+    c2 = Card('9', 'h')
+    print('c1 ',c1)
+    print_instance_attributes(c1)
+    print('c2 ',c2)
+    print_instance_attributes(c2)
+    #Are the same?
+    print('Are the same? ',c1 == c2)
+    print('--')
+    #Is contained?
+    print('Is contained? ',c1 is c2)
+    print('--')
+    #Adding new attribute to c1
+    c1.new_attr = 'temp'
+    c3 = Card('9', 'h')
+    print('have the same attributes?')
+    print('c1 ',c1)
+    print_instance_attributes(c1)
+    print('c2 ',c2)
+    print_instance_attributes(c2)
+    print('c3 ',c3)
+    print_instance_attributes(c3)
+    print('--')
+    #True
+    Card._pool.clear()
+    c4 = Card('9', 'h')
+    print('c3 ',c3)
+    print_instance_attributes(c3)
+    print('c4 ',c4)
+    print_instance_attributes(c4)
+    #False
+
+if __name__ == "__main__":
+    main()

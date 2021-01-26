@@ -1,3 +1,8 @@
+'''
+the Factory Method, which is a method (or in Pythonic terms, a function) that returns a different object per input parameter  
+the Abstract Factory, which is a group of Factory Methods used to create a family of related products
+'''
+
 class Frog:
     def __init__(self, name):
         self.name = name

@@ -1,3 +1,8 @@
+'''
+The Facade (also known as Façade) design pattern helps us to hide the internal complexity of our systems and
+expose only what is necessary to the client through a simplified interface 
+'''
+
 # 4 essential for a car
 
 class _IgnitionSystem(object):

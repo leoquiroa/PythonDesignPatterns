@@ -1,3 +1,9 @@
+'''
+The Builder pattern separates the construction of a complex object from its
+representation. By keeping the construction separate from the representation, the
+same construction can be used to create several different representations
+'''
+
 MINI14 = '1.4GHz Mac mini'
 
 class AppleFactory:

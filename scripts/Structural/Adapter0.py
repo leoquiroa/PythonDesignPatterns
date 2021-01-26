@@ -1,3 +1,8 @@
+'''
+A structural design pattern focuses on providing a simple way of composing objects 
+for creating new functionality
+'''
+
 class Computer:
     def __init__(self, name):
         self.name = name

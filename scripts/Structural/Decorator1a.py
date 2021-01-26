@@ -1,3 +1,8 @@
+'''
+A Decorator pattern can add responsibilities to an object dynamically, and 
+in a transparent manner (without affecting other objects) 
+'''
+
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import six

@@ -1,3 +1,9 @@
+'''
+The Prototype design pattern helps us with creating object clones. In its simplest
+version, the Prototype pattern is just a clone() function that accepts an object as
+an input parameter and returns a clone of it.
+'''
+
 import copy
     
 class A:

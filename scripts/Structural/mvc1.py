@@ -30,7 +30,7 @@ class QuoteTerminalView:
         print('Error: {}'.format(msg))
     
     def select_quote(self):
-        return input('Which quote number would you like to see? ')
+        return input('Out of '+str(len(quotes))+' quotes, which number would you like to see?')
 
 class QuoteTerminalController:
 

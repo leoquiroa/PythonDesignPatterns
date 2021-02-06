@@ -1,6 +1,7 @@
 class ReportFormat(object):
-    PDF = 0
+    HTML = 0
     TEXT = 1
+    JPG = 2
 
 class Report(object):
     def __init__(self, format_):
@@ -8,7 +9,7 @@ class Report(object):
         self.text = ['Things are going', 'really, really well.']
         self.format_ = format_
 
-# - Handler - PDF and TEXT ------------------------------------
+# - Handler - HTML and TEXT ------------------------------------
 
 class Handler(object):
 
@@ -21,7 +22,7 @@ class Handler(object):
 class PDFHandler(Handler):
 
     def handle(self, request):
-        if request.format_ == ReportFormat.PDF:
+        if request.format_ == ReportFormat.HTML:
             self.output_report(request.title, request.text)
         else:
             super(PDFHandler, self).handle(request)
@@ -33,7 +34,7 @@ class PDFHandler(Handler):
         print( ' </head>')
         print( ' <body>')
         for line in text:
-            print( ' <p>%s' % line)
+            print( ' <p>%s<p>' % line)
         print( ' </body>')
         print( '</html>')
 
@@ -57,10 +58,21 @@ class ErrorHandler(Handler):
         print( "Invalid request")
 
 if __name__ == '__main__':
-    report = Report(ReportFormat.TEXT)
+    # the 2 objects
     pdf_handler = PDFHandler()
     text_handler = TextHandler()
-
+    # connect them
+    # HTML -> text -> error
     pdf_handler.nextHandler = text_handler
     text_handler.nextHandler = ErrorHandler()
-    pdf_handler.handle(report)
+    # TEXT case
+    print(' - TEXT case - ')
+    report1 = Report(ReportFormat.TEXT)
+    pdf_handler.handle(report1)
+    # HTML case
+    print(' - HTML case - ')
+    report2 = Report(ReportFormat.HTML)
+    pdf_handler.handle(report2)
+    print(' - JPG case - ')
+    report3= Report(ReportFormat.JPG)
+    pdf_handler.handle(report3)

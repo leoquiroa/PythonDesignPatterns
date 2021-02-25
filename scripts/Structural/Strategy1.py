@@ -52,3 +52,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    #check if all characters in a string are unique
